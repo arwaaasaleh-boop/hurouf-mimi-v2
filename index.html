@@ -949,12 +949,6 @@ function renderLesson(d){
     </div>
   </section>
 
-  <div class="sec-title">أصوات الحرف</div>
-  <div class="panel">
-    <div class="act-q">اضغط لتسمع صوت الحرف مع الحركات ${sayBtn("اضغط على كل حرف لتسمع صوته مع الفتحة والضمة والكسرة")}</div>
-    <div class="harakat">${HARAKAT.map(([m,n,f,c])=>`<button class="hk" data-s="${d.ch+m}" style="--c:${c}"><span class="hk-l">${d.ch+m}</span><span class="hk-n">${f} ${n}</span></button>`).join("")}</div>
-  </div>
-
   <section class="scroll" id="hadithSec">
     <h3>📜 حديث نبوي شريف — حرف ${d.name}</h3>
     <div class="memo-tag">⭐ احفظ معي</div>
