@@ -135,6 +135,7 @@ header.hero-head{text-align:center;padding:6px 0 4px}
 @keyframes carIn{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
 .car::after{content:"";position:absolute;left:-9px;bottom:44px;width:20px;height:7px;border-radius:4px;background:#4a4a4a;z-index:0}
 .car:last-child::after{display:none}
+.car.locked{animation:none!important;opacity:1!important;pointer-events:none;cursor:default}.car.locked .wagon,.car.locked .wheel,.car.locked .ltr,.car.locked .pic,.car.locked .badge-star{animation:none!important;transition:none!important}.car.locked .spk{display:none}
 .wagon{position:relative;z-index:1;border-radius:18px 18px 10px 10px;padding:14px 4px 18px;text-align:center;
   border:4px solid rgba(255,255,255,.8);box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),0 6px 14px rgba(0,0,0,.25);
   transition:all .3s cubic-bezier(.34,1.56,.64,1);animation:chug 1.6s ease-in-out infinite;animation-delay:var(--dl,0s)}
@@ -629,6 +630,8 @@ const HARAKAT=[["َ","فتحة","😮","#E8443A"],["ُ","ضمّة","😗","#2E8B
 const NONJ_BASE="اأإآدذرزو";
 function formsOf(ch){const nj=NONJ_BASE.includes(ch);return nj?[["وحده",ch],["في الآخر","ـ"+ch]]:[["وحده",ch],["في الأول",ch+"ـ"],["في الوسط","ـ"+ch+"ـ"],["في الآخر","ـ"+ch]]}
 const bySlug = Object.fromEntries(L.map(d=>[d.slug,d]));
+/* الحروف المفتوحة للدروس: من الألف إلى الثاء، والباقي ثابت بلا انتقال */
+const OPEN_COUNT=4;function isOpen(d){return d.i<OPEN_COUNT}
 const SIMILAR={"أ":"لكط","ب":"تثني","ت":"بثن","ث":"تبش","ج":"حخع","ح":"جخه","خ":"حجغ","د":"ذرز","ذ":"دزر","ر":"زدو","ز":"رذن","س":"شصض","ش":"سثص","ص":"ضسط","ض":"صظش","ط":"ظكص","ظ":"طضذ","ع":"غحه","غ":"عخف","ف":"قغو","ق":"فكن","ك":"لقط","ل":"كأن","م":"هنو","ن":"بتي","ه":"محو","و":"رفم","ي":"بنت"};
 const NONJOIN="اأإآدذرزوؤةء";
 
@@ -888,7 +891,7 @@ function topbar(home){return `<div class="topbar">
 function renderHome(){
   document.body.classList.add("home-mode");
   const done=doneCount();
-  const cards=L.map((d,i)=>`<div class="car" tabindex="0" role="link" aria-label="حرف ${d.name}" data-slug="${d.slug}" style="--dl:${(i*.05).toFixed(2)}s">
+  const cards=L.map((d,i)=>`<div class="car${isOpen(d)?"":" locked"}" ${isOpen(d)?'tabindex="0" role="link"':'aria-disabled="true"'} aria-label="حرف ${d.name}" data-slug="${d.slug}" style="--dl:${(i*.05).toFixed(2)}s">
      <div class="wagon g${i%3}">
        ${S.done[d.slug]?'<span class="badge-star">⭐</span>':(S.visited[d.slug]?'<span class="visited-dot"></span>':"")}
        <button class="spk" aria-label="اسمع حرف ${d.name}" data-spk="${d.slug}">🔊</button>
@@ -916,7 +919,7 @@ function renderHome(){
   requestAnimationFrame(()=>setTimeout(()=>{const f=$(".pfill");if(f)f.style.width=(done/28*100)+"%"},150));
   $("#locoBig").onclick=()=>{SFX.chime();speakSeq([["بسم الله نبدأ رحلتنا يا ميمي","g"],["هيا يا جدّي، انطلق القطار!","m"]])};
   $("#startBtn").onclick=()=>{SFX.chime();speak("بسم الله نبدأ رحلتنا","g");$("#letters").scrollIntoView({behavior:"smooth"})};
-  document.querySelectorAll(".car[data-slug]").forEach(c=>{
+  document.querySelectorAll(".car[data-slug]:not(.locked)").forEach(c=>{
     c.addEventListener("click",e=>{const s=e.target.closest("[data-spk]");if(s){e.stopPropagation();sayLetter(bySlug[s.dataset.spk],e);return}go("lesson-"+c.dataset.slug)});
     c.addEventListener("keydown",e=>{if(e.key==="Enter")go("lesson-"+c.dataset.slug)});
   });
@@ -936,7 +939,7 @@ function onFirstView(el,fn){if(!el||!("IntersectionObserver" in window))return;c
 function renderLesson(d){
   document.body.classList.remove("home-mode");
   if(!S.visited[d.slug]){S.visited[d.slug]=1;save()}
-  const prev=L[d.i-1],next=L[d.i+1];
+  const prev=L[d.i-1],next=L[d.i+1]&&isOpen(L[d.i+1])?L[d.i+1]:null;
   const words=d.words.map((w,i)=>`<button class="wtile ${S.won["w:"+d.slug+":"+i]?"heard":""}" data-w="${i}"><span class="em">${w.e}</span><span class="wd">${wordHTML(w.t,d.ch)}</span><div style="font-size:15px">🔊</div></button>`).join("");
   $("#app").innerHTML=`${topbar(false)}<main class="lesson-main">
   <section class="lesson-head">
@@ -1002,7 +1005,7 @@ function renderLesson(d){
     if(!S.done[d.slug]){S.done[d.slug]=1;S.points+=20;save();refreshPoints();floatPts(20,e);confetti(60);SFX.applause();checkBadges()}
     else confetti(20);
     const b=$("#bDone");b.classList.add("is-done");b.textContent="⭐ تعلّمتُ هذا الحرف!";
-    grandpaSay(next?`ما شاء الله! هيا إلى حرف ${next.name}`:"ما شاء الله! أتممتَ كل الحروف، أنت بطل!");
+    grandpaSay(next?`ما شاء الله! هيا إلى حرف ${next.name}`:(d.i===L.length-1?"ما شاء الله! أتممتَ كل الحروف، أنت بطل!":"ما شاء الله! أنت بطل!"));
   };
   setTimeout(()=>grandpaSay(`هيا نتعلّم حرف ${d.name} يا أبطال!`,false),700);
 }
@@ -1262,7 +1265,7 @@ function route(){
   closeModal();$("#say").classList.remove("show");
   const h=location.hash.replace("#","");
   const m=h.match(/^lesson-([a-z]+)$/);
-  if(m&&bySlug[m[1]])renderLesson(bySlug[m[1]]);else renderHome();
+  if(m&&bySlug[m[1]]&&isOpen(bySlug[m[1]]))renderLesson(bySlug[m[1]]);else renderHome();
   window.scrollTo(0,0);
 }
 applyTheme();
