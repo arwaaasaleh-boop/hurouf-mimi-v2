@@ -647,8 +647,8 @@ const BADGES=[
  {id:"ten",i:"📖",n:"القارئ الصغير",d:"أتممتَ ١٠ حروف",c:()=>doneCount()>=10},
  {id:"half",i:"🌙",n:"نصف الرحلة",d:"أتممتَ ١٤ حرفًا",c:()=>doneCount()>=14},
  {id:"all",i:"🏆",n:"بطل الحروف",d:"أتممتَ الحروف الـ٢٨",c:()=>doneCount()>=28},
- {id:"h5",i:"📜",n:"محبّ الحديث",d:"أكملتَ ٥ أحاديث",c:()=>count("hg:")>=5},
- {id:"h14",i:"🕌",n:"حافظ الأحاديث",d:"أكملتَ ١٤ حديثًا",c:()=>count("hg:")>=14},
+ {id:"h5",i:"📜",n:"محبّ الحديث",d:"ردّدتَ ٥ أحاديث",c:()=>count("rep:")>=5},
+ {id:"h14",i:"🕌",n:"حافظ الأحاديث",d:"ردّدتَ ١٤ حديثًا",c:()=>count("rep:")>=14},
  {id:"st3",i:"📚",n:"صديق القصص",d:"أنهيتَ ٣ قصص",c:()=>count("st:")>=3},
  {id:"writer",i:"✍️",n:"الكاتب الماهر",d:"كتبتَ حرفًا بإصبعك",c:()=>count("act:trace")>=1},
  {id:"brave",i:"💪",n:"الصابر المثابر",d:"حاولتَ مرة أخرى ونجحتَ ٣ مرات",c:()=>S.comeback>=3},
@@ -975,8 +975,6 @@ function renderLesson(d){
   <div class="sec-title" id="actSec">نشاط تفاعلي</div>
   <div class="panel"><div class="act-tabs" id="actTabs"></div><div id="actBox"></div></div>
 
-  <div class="sec-title">أكمل الحديث</div>
-  <div class="panel" id="hgBox"></div>
 
   <div class="sec-title">ركن القصة: ميمي وجدّها</div>
   <div class="panel" id="storyBox"></div>
@@ -1005,7 +1003,7 @@ function renderLesson(d){
   $("#bPlay").onclick=()=>$("#actSec").scrollIntoView({behavior:"smooth"});
   document.querySelectorAll(".wtile").forEach(b=>b.onclick=e=>{const i=+b.dataset.w;SFX.pop();speak(d.words[i].t,"m");b.classList.add("heard");award("w:"+d.slug+":"+i,2,e)});
   document.querySelectorAll(".hk").forEach(b=>b.onclick=e=>{SFX.pop();b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");speakSeq([[syl(b.dataset.s),"g"],[syl(b.dataset.s),"m"]]);award("hk:"+d.slug+":"+b.dataset.s,1,e)});
-  setupActivities(d);hadithGame(d);story(d);
+  setupActivities(d);story(d);
   $("#bDone").onclick=e=>{
     if(!S.done[d.slug]){S.done[d.slug]=1;S.points+=20;save();refreshPoints();floatPts(20,e);confetti(60);SFX.applause();checkBadges()}
     else confetti(20);
