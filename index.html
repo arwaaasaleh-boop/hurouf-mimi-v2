@@ -757,13 +757,13 @@ function speak(text,who="g",onend){speakSeq([[text,who]],onend)}
 function showVoices(){closeModal();const av=arVoices().sort((x,y)=>vScore(y)-vScore(x));
   const opts=w=>`<option value="">تلقائي (${(autoVoice(w)||{name:"غير متوفر"}).name})</option>`+av.map(v=>`<option value="${v.voiceURI}" ${S.voice&&S.voice[w]===v.voiceURI?"selected":""}>${v.name} — ${v.lang}</option>`).join("");
   const b=document.createElement("div");b.className="modal-bg";b.onclick=e=>{if(e.target===b)closeModal()};
-  b.innerHTML=`<div class="modal"><button class="x" onclick="closeModal()">✕</button><h2>🎙️ أصوات الجد وميمي</h2>
+  b.innerHTML=`<div class="modal"><button class="x" onclick="closeModal()">✕</button><h2>أصوات الجد وميمي</h2>
    ${av.length?"":`<p style="color:#b33;font-weight:700;text-align:center">لا يوجد صوت عربي في هذا الجهاز حاليًا.</p>`}
    <div class="talk-row"><div class="av">${charBox("g")}</div><div style="flex:1"><b>صوت الجد صالح</b><select id="vg" class="vsel">${opts("g")}</select>
     <button class="pill green" style="margin-top:6px" onclick="speak('بسمِ الله، هيا نتعلّمُ حرفَ الباء يا ميمي','g')">▶️ جرّب</button></div></div>
    <div class="talk-row"><div class="av">${charBox("m")}</div><div style="flex:1"><b>صوت ميمي</b><select id="vm" class="vsel">${opts("m")}</select>
     <button class="pill gold" style="margin-top:6px" onclick="speak('حاضر يا جدّي! باء، باب، بطّة','m')">▶️ جرّب</button></div></div>
-   <details class="tip" open><summary>💡 لأوضح صوت بشري طبيعي</summary>
+   <details class="tip" open><summary>لأوضح صوت بشري طبيعي</summary>
    <ul style="margin:6px 0;padding-inline-start:20px;font-size:18px">
    <li><b>آيفون وآيباد:</b> الإعدادات ← تسهيلات الاستخدام ← المحتوى المنطوق ← الأصوات ← العربية، ونزّل صوت «ماجد (محسّن)» أو «ليلى»، ثم أعد فتح الصفحة.</li>
    <li><b>ويندوز:</b> افتح الموقع في متصفح Edge لتظهر الأصوات الطبيعية مثل «Hamed Online (Natural)» و«Zariyah Online (Natural)».</li>
@@ -910,18 +910,18 @@ function renderHome(){
     <p class="kid-sub">حكايات حروف الهجاء مع خاتم الأنبياء ﷺ</p>
   </header>
   <section class="hero">
-    <div class="hero-bubble">بسم الله نبدأ رحلتنا مع حروف النبي ﷺ 🚂</div>
+    <div class="hero-bubble">بسم الله نبدأ رحلتنا مع حروف النبي ﷺ</div>
     <div class="loco-track">${locoBig()}</div>
-    <button class="start-btn" id="startBtn">ابدأ الرحلة ✨</button>
+    <button class="start-btn" id="startBtn">ابدأ الرحلة</button>
   </section>
-  <div class="sec-title" id="letters">🚂 قطار حروف الهجاء</div>
+  <div class="sec-title" id="letters">قطار حروف الهجاء</div>
   <div class="train">${cards}</div>
   <div class="panel progress-wrap">
     <div class="big-num">الحروف التي تعلّمتها: ${done} من ٢٨</div>
     <div class="pbar"><div class="pfill" style="width:0%"></div></div>
     <div>⭐ نقاطك: <b class="pts-val">${S.points}</b> &nbsp;|&nbsp; 🏅 أوسمتك: <b>${Object.keys(S.badges).length}</b> من ${BADGES.length}</div>
   </div>
-  <div class="home-wa" style="text-align:center;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px"><button class="pill green" onclick="showParents()" style="font-size:22px">👨‍👩‍👧 دليل أولياء الأمور والمعلمات</button>${waButton("مجتمعنا على واتساب")}</div>`;
+  <div class="home-wa" style="text-align:center;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px"><button class="pill green" onclick="showParents()" style="font-size:22px">دليل أولياء الأمور والمعلمات</button>${waButton("مجتمعنا على واتساب")}</div>`;
   requestAnimationFrame(()=>setTimeout(()=>{const f=$(".pfill");if(f)f.style.width=(done/28*100)+"%"},150));
   $("#locoBig").onclick=()=>{SFX.chime();speakSeq([["بسم الله نبدأ رحلتنا يا ميمي","g"],["هيا يا جدّي، انطلق القطار!","m"]])};
   $("#startBtn").onclick=()=>{SFX.chime();speak("بسم الله نبدأ رحلتنا","g");$("#letters").scrollIntoView({behavior:"smooth"})};
@@ -959,15 +959,15 @@ function renderLesson(d){
   </section>
 
   <section class="scroll" id="hadithSec">
-    <h3>📜 حديث نبوي شريف — حرف ${d.name}</h3>
-    <div class="memo-tag">⭐ احفظ معي</div>
+    <h3>حديث نبوي شريف — حرف ${d.name}</h3>
+    <div class="memo-tag">احفظ معي</div>
     <div class="hadith memo-line">قال ﷺ: «${hadithHTML(d.short)}»</div>
     <div class="btn-row" style="margin-bottom:8px"><button class="pill gold" id="bRepeat">🔁 ردّد مع ميمي</button></div>
-    <details class="full-h"><summary>📖 الحديث كاملًا (للكبار)</summary>
+    <details class="full-h"><summary>الحديث كاملًا (للكبار)</summary>
       <div class="hadith" style="font-size:clamp(20px,4vw,26px)">«${hadithHTML(d.hadith)}»</div>
       <div class="src">${d.src}</div>
       <div style="text-align:center"><button class="pill green" id="bHadith2">▶️ اسمع الحديث كاملًا</button></div></details>
-    <div class="talk-row"><div class="av">${charBox("m")}</div><div class="tbubble">قالت ميمي: ماذا يعني هذا يا جدّي؟ 🤔</div></div>
+    <div class="talk-row"><div class="av">${charBox("m")}</div><div class="tbubble">قالت ميمي: ماذا يعني هذا يا جدّي؟</div></div>
     <div class="talk-row"><div class="av">${charBox("g")}</div><div class="tbubble g">${d.explain}</div></div>
     <div class="btn-row"><button class="pill orange" id="bExplain">👴 اسمع شرح الجد</button></div>
   </section>
@@ -982,7 +982,7 @@ function renderLesson(d){
   <div class="sec-title">ركن القصة: ميمي وجدّها</div>
   <div class="panel" id="storyBox"></div>
 
-  <details class="tip"><summary>💡 فكرة للبيت (للوالدين والمعلمات)</summary><p>${d.tip}</p></details>
+  <details class="tip"><summary>فكرة للبيت (للوالدين والمعلمات)</summary><p>${d.tip}</p></details>
   <div class="share-box"><div style="font-weight:700;font-size:21px;margin-bottom:8px">📸 طبّقتم فكرة حرف ${d.name}؟ شاركوا صورة أو مقطعًا مع المعلّمة والأصدقاء!</div>${waButton("شارك في مجتمع واتساب")}</div>
 
   <button class="complete-btn ${S.done[d.slug]?"is-done":""}" id="bDone">${S.done[d.slug]?"⭐ تعلّمتُ هذا الحرف!":"لقد تعلّمتُ هذا الحرف! ⭐"}</button>
@@ -1167,25 +1167,25 @@ function story(d){
 function closeModal(){const m=$(".modal-bg");if(m)m.remove()}
 function showParents(){closeModal();const b=document.createElement("div");b.className="modal-bg";b.onclick=e=>{if(e.target===b)closeModal()};
   b.innerHTML=`<div class="modal parents"><button class="x" onclick="closeModal()">✕</button>
-   <h2>👨‍👩‍👧 دليل أولياء الأمور والمعلمات</h2>
-   <h3>📖 فكرة الموقع</h3>
-   <p>لكل حرف كلمة قريبة من حياة الطفل، ومعها ثلاثة أشياء: 📜 <b>حديث</b> قصير يسمعه ويحفظه، و📖 <b>قصة</b> مصوّرة مع ميمي وجدّها تغرس قيمة وتنتهي بدعاء، و💡 <b>فكرة للبيت</b> تطبّقونها معه.</p>
-   <h3>🧭 كيف تستخدمونها مع طفلكم؟</h3>
+   <h2>دليل أولياء الأمور والمعلمات</h2>
+   <h3>فكرة الموقع</h3>
+   <p>لكل حرف كلمة قريبة من حياة الطفل، ومعها ثلاثة أشياء: <b>حديث</b> قصير يسمعه ويحفظه، و<b>قصة</b> مصوّرة مع ميمي وجدّها تغرس قيمة وتنتهي بدعاء، و<b>فكرة للبيت</b> تطبّقونها معه.</p>
+   <h3>كيف تستخدمونها مع طفلكم؟</h3>
    <ol>
     <li>اجلسوا مع الطفل، ولا تتركوه وحده أمام الشاشة؛ الموقع وسيلة للتعلّم المشترك.</li>
     <li>اختاروا حرفًا واحدًا يوميًا أو حرفين في الأسبوع حسب عمر الطفل، ولا تستعجلوا.</li>
     <li>ابدؤوا بسماع الحرف، ثم الحديث وشرح الجد، ثم الكلمات المصوّرة.</li>
     <li>العبوا الأنشطة الأربعة معه، ثم لعبة «أكمل الحديث»، ثم القصة.</li>
     <li>طبّقوا «فكرة للبيت» في آخر صفحة الحرف، وكرّروا الحديث معه خلال اليوم.</li>
-    <li>عندما يتقن الحرف، دعوه يضغط بنفسه «لقد تعلّمتُ هذا الحرف ⭐».</li>
+    <li>عندما يتقن الحرف، دعوه يضغط بنفسه «لقد تعلّمتُ هذا الحرف».</li>
    </ol>
-   <h3>⏱️ وقت الشاشة</h3>
+   <h3>وقت الشاشة</h3>
    <p>يكفي ١٠–١٥ دقيقة في الجلسة لطفل الروضة، والباقي لعب وتطبيق عملي في الواقع.</p>
-   <h3>🌟 التشجيع والأخطاء</h3>
+   <h3>التشجيع والأخطاء</h3>
    <p>الخطأ جزء من التعلّم: لا تُخصم أي نقطة، ويقول الجد «حاول مرة أخرى»، وبعد ثلاث محاولات يظهر تلميح. امدحوا محاولة الطفل لا نتيجته فقط، واجعلوا الأوسمة مناسبة للاحتفال معه.</p>
-   <h3>🔊 الصوت</h3>
+   <h3>الصوت</h3>
    <p>تعتمد القراءة على الصوت العربي في الجهاز. لصوت أوضح افتحوا زر 🎙️ في أعلى الصفحة واتبعوا الخطوات.</p>
-   <h3>💾 حفظ التقدّم</h3>
+   <h3>حفظ التقدّم</h3>
    <p>النقاط والأوسمة محفوظة في هذا المتصفح وهذا الجهاز فقط.</p>
    <p style="font-size:17px;color:#7a6a4a">الفكرة مستوحاة من منهج كتاب «حكايات حروف الهجاء» للدكتور عبدالله محمد عبدالمعطي، والأحاديث من الصحيحين والسنن.</p>
    <div style="text-align:center"><button class="pill ghost" id="resetBtn">🔄 بدء رحلة جديدة (مسح التقدّم)</button></div></div>`;
@@ -1208,18 +1208,18 @@ const RULES=[
  ["🗑️","يحق لولي الأمر طلب حذف أي مشاركة لطفله في أي وقت، ويحق للمشرفات حذف أي مشاركة مخالفة وإزالة صاحبها."]];
 const PLEDGE="أتعهّد أمام الله بالمحافظة على خصوصية الأطفال، وألّا أحفظ أو أنشر صور أو مقاطع أي طفل خارج هذا المجتمع، وأن ألتزم بقوانين المجتمع، والله على ما أقول شهيد.";
 function waButton(t){return S.pledge?`<a class="wa-btn" href="${WA_LINK}" target="_blank" rel="noopener">${WA_ICON} ${t}</a>`:`<button class="wa-btn" onclick="showCommunity()">${WA_ICON} ${t}</button>`}
-function rulesText(){return "🔒 قوانين مجتمع «هيا نتعلّم مع ميمي — حكايات حروف الهجاء»\nنسعى في هذا المجتمع إلى التعلّم وكسب الأجر 🤲\n\n"+RULES.map((r,i)=>(i+1)+". "+r[1]).join("\n")+"\n\n🤝 التعهّد: "+PLEDGE}
+function rulesText(){return "🔒 قوانين مجتمع «هيا نتعلّم مع ميمي — حكايات حروف الهجاء»\nنسعى في هذا المجتمع إلى التعلّم وكسب الأجر 🤲\n\n"+RULES.map((r,i)=>(i+1)+". "+r[1]).join("\n")+"\n\nالتعهّد: "+PLEDGE}
 function showCommunity(){closeModal();const b=document.createElement("div");b.className="modal-bg";b.onclick=e=>{if(e.target===b)closeModal()};
   b.innerHTML=`<div class="modal parents"><button class="x" onclick="closeModal()">✕</button>
-   <h2>💬 مجتمع «حكايات حروف الهجاء» على واتساب</h2>
-   <div class="intent">🤲 نسعى في هذا المجتمع إلى <b>التعلّم</b> و<b>كسب الأجر</b></div>
+   <h2>مجتمع «حكايات حروف الهجاء» على واتساب</h2>
+   <div class="intent">نسعى في هذا المجتمع إلى <b>التعلّم</b> و<b>كسب الأجر</b></div>
    <p>مكان نشارك فيه <b>تطبيقات أطفالنا</b> أثناء التعلّم: صور ومقاطع لـ«فكرة للبيت»، وحرف كتبه الطفل، وحديث حفظه، وهدية صنعها…</p>
    <ul><li>👩‍🏫 تطّلع المعلّمة على تطبيقات الأطفال وتتابع تقدّمهم وتشجّعهم.</li>
    <li>🌟 يتحفّز الأطفال حين يرون إنجازات أقرانهم ويشاركون إنجازاتهم.</li>
-   <li>🤝 يتبادل الآباء والأمهات الأفكار والتجارب.</li></ul>
-   <h3>🔒 قوانين المحافظة على خصوصية الأطفال</h3>
+   <li>يتبادل الآباء والأمهات الأفكار والتجارب.</li></ul>
+   <h3>قوانين المحافظة على خصوصية الأطفال</h3>
    <ol class="rules">${RULES.map(r=>`<li><span>${r[0]}</span> ${r[1]}</li>`).join("")}</ol>
-   <div class="pledge"><div style="font-weight:700;color:var(--green-d);margin-bottom:6px">🤝 التعهّد</div>
+   <div class="pledge"><div style="font-weight:700;color:var(--green-d);margin-bottom:6px">التعهّد</div>
      <p style="margin:0 0 8px">${PLEDGE}</p>
      <label class="pl-check"><input type="checkbox" id="plg" ${S.pledge?"checked":""}> <span>أتعهّد بذلك وأوافق على القوانين</span></label></div>
    <div id="joinArea" style="text-align:center;margin:14px 0"></div>
@@ -1237,31 +1237,31 @@ function showCommunity(){closeModal();const b=document.createElement("div");b.cl
 }
 function showAbout(){closeModal();const b=document.createElement("div");b.className="modal-bg";b.onclick=e=>{if(e.target===b)closeModal()};
   b.innerHTML=`<div class="modal parents"><button class="x" onclick="closeModal()">✕</button>
-   <h2>ℹ️ من نحن</h2>
+   <h2>من نحن</h2>
    <div class="hero-stage" style="max-width:220px;margin:0 auto">${charBox("g")}${charBox("m")}</div>
    <p style="text-align:center;font-weight:700;color:var(--green-d);font-size:22px">«حكايات حروف الهجاء مع خاتم الأنبياء ﷺ»</p>
    <p>موقع تعليمي تفاعلي لأطفال الروضة من ٣ إلى ٦ سنوات، يتعلّم فيه الطفل حروف الهجاء العربية في رحلة ممتعة مع <b>ميمي</b> وجدّها <b>صالح</b>، ويتعرّف من خلالها على النبي ﷺ ويحبّه.</p>
-   <h3>🎯 رسالتنا</h3>
+   <h3>رسالتنا</h3>
    <p>أن نربط تعلّم كل حرف بكلمة قريبة من حياة الطفل، وحديث نبوي شريف يحفظه، وقصة تغرس فيه قيمة، وفكرة يطبّقها مع أهله في البيت والروضة.</p>
-   <h3>🌟 ماذا نقدّم؟</h3>
+   <h3>ماذا نقدّم؟</h3>
    <ul><li>٢٨ حرفًا، لكل حرف حديث وقصة وكلمات مصوّرة.</li>
    <li>أنشطة وألعاب: ابحث، اكتب بإصبعك، صِل، أكمل.</li>
    <li>نقاط وأوسمة تشجيعية، وتشجيع على المحاولة عند الخطأ.</li>
    <li>ركن للآباء والمعلمات بأفكار تطبيقية لكل حرف.</li></ul>
-   <h3>📚 مصدر الفكرة</h3>
+   <h3>مصدر الفكرة</h3>
    <p>مستوحاة من منهج كتاب «حكايات حروف الهجاء» للدكتور عبدالله محمد عبدالمعطي، والأحاديث من الصحيحين والسنن.</p>
-   <div style="text-align:center"><button class="pill gold" onclick="closeModal()">هيا نبدأ الرحلة ✨</button></div></div>`;
+   <div style="text-align:center"><button class="pill gold" onclick="closeModal()">هيا نبدأ الرحلة</button></div></div>`;
   document.body.appendChild(b)}
 function showBadges(){closeModal();const b=document.createElement("div");b.className="modal-bg";b.onclick=e=>{if(e.target===b)closeModal()};
-  b.innerHTML=`<div class="modal"><button class="x" onclick="closeModal()">✕</button><h2>🏅 أوسمتي</h2>
+  b.innerHTML=`<div class="modal"><button class="x" onclick="closeModal()">✕</button><h2>أوسمتي</h2>
    <p style="text-align:center;margin:0 0 10px">⭐ نقاطك: <b>${S.points}</b> — الحروف: <b>${doneCount()}</b> / ٢٨</p>
    <div class="bgrid">${BADGES.map(x=>`<div class="bdg ${S.badges[x.id]?"":"locked"}"><div class="bi">${x.i}</div><div class="bn">${x.n}</div><div class="bd">${x.d}</div></div>`).join("")}</div>
    <p style="text-align:center;font-size:17px;color:#7a6a4a">اجمع النقاط بسماع الكلمات، وحلّ الأنشطة، وإكمال الأحاديث والقصص 🌟</p></div>`;
   document.body.appendChild(b)}
 function celebrateBadge(x){closeModal();const b=document.createElement("div");b.className="modal-bg";
-  b.innerHTML=`<div class="modal" style="text-align:center"><h2>مبارك! حصلتَ على وسام جديد 🎉</h2><div class="big-badge">${x.i}</div>
+  b.innerHTML=`<div class="modal" style="text-align:center"><h2>مبارك! حصلتَ على وسام جديد</h2><div class="big-badge">${x.i}</div>
    <div style="font-size:30px;font-weight:700;font-family:Amiri;color:var(--green-d)">${x.n}</div><p>${x.d}</p>
-   <button class="pill gold" onclick="closeModal()">رائع! نكمل الرحلة ✨</button></div>`;
+   <button class="pill gold" onclick="closeModal()">رائع! نكمل الرحلة</button></div>`;
   document.body.appendChild(b);confetti(70);SFX.applause();speak("مبارك! حصلت على وسام "+x.n,"g")}
 
 /* ===================== التوجيه ===================== */
