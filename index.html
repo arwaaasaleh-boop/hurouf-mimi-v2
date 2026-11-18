@@ -135,7 +135,7 @@ header.hero-head{text-align:center;padding:6px 0 4px}
 @keyframes carIn{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:none}}
 .car::after{content:"";position:absolute;left:-9px;bottom:44px;width:20px;height:7px;border-radius:4px;background:#4a4a4a;z-index:0}
 .car:last-child::after{display:none}
-.car.locked{animation:none!important;opacity:.55!important;filter:saturate(.45);pointer-events:none;cursor:default}.car.locked .wagon,.car.locked .wheel,.car.locked .ltr,.car.locked .pic,.car.locked .badge-star{animation:none!important;transition:none!important}.car.locked .spk{display:none}
+.car.locked{animation:none!important;opacity:1!important;pointer-events:none;cursor:default}.car.locked .wagon{opacity:.55;filter:saturate(.45)}.car .lock{position:absolute;top:4px;left:6px;z-index:5;font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.25)}.car.locked .wagon,.car.locked .wheel,.car.locked .ltr,.car.locked .pic,.car.locked .badge-star{animation:none!important;transition:none!important}.car.locked .spk{display:none}
 .wagon{position:relative;z-index:1;border-radius:18px 18px 10px 10px;padding:14px 4px 18px;text-align:center;
   border:4px solid rgba(255,255,255,.8);box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),0 6px 14px rgba(0,0,0,.25);
   transition:all .3s cubic-bezier(.34,1.56,.64,1);animation:chug 1.6s ease-in-out infinite;animation-delay:var(--dl,0s)}
@@ -892,7 +892,7 @@ function renderHome(){
   document.body.classList.add("home-mode");
   const done=doneCount();
   const cards=L.map((d,i)=>`<div class="car${isOpen(d)?"":" locked"}" ${isOpen(d)?'tabindex="0" role="link"':'aria-disabled="true"'} aria-label="حرف ${d.name}" data-slug="${d.slug}" style="--dl:${(i*.05).toFixed(2)}s">
-     <div class="wagon g${i%3}">
+     ${isOpen(d)?"":'<span class="lock" aria-hidden="true">🔒</span>'}<div class="wagon g${i%3}">
        ${S.done[d.slug]?'<span class="badge-star">⭐</span>':(S.visited[d.slug]?'<span class="visited-dot"></span>':"")}
        <button class="spk" aria-label="اسمع حرف ${d.name}" data-spk="${d.slug}">🔊</button>
        <div class="wrow"><span class="ltr">${d.ch}</span><span class="pic">${d.words[0].e}</span></div>
